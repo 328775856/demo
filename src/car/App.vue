@@ -1,5 +1,5 @@
 <template>
-  <div>car</div>
+  <div>别看我啊，小坏蛋！</div>
 </template>
 
 <script>
