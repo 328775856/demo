@@ -8,6 +8,7 @@ const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const HtmlIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
 const portfinder = require('portfinder')
 const glob = require('glob')
 
@@ -104,7 +105,14 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         to: config.dev.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+    new HtmlIncludeAssetsPlugin({
+      assets: [
+        'static/global.css',
+      ],
+      append: false,
+      hash: true
+    }),
   ]
 })
 

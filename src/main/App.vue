@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     main
   </div>
 </template>
@@ -11,5 +11,7 @@
 </script>
 
 <style scoped>
-
+.main{
+  font-size: .1rem;
+}
 </style>
