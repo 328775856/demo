@@ -9,5 +9,7 @@
 </script>
 
 <style scoped>
-
+.main{
+  font-size: .1rem;
+}
 </style>
