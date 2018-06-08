@@ -32,7 +32,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   // entry: {
   //   main: './src/main/index.js',
   //   car:'./src/car/index.js',
-  //   goods: './src/goods/index.js'
+  //   weather: './src/weather/index.js'
   // },
   module: {
     rules: utils.styleLoaders({sourceMap: config.dev.cssSourceMap, usePostCSS: true})
@@ -91,8 +91,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     // }),
     // new HtmlWebpackPlugin({
     //   title: '商品',
-    //   filename: 'goods/goods.html',
-    //   template: './goods.html',
+    //   filename: 'weather/weather.html',
+    //   template: './weather.html',
     //   inject: true,
     //   chunks: ['goods']
     // }),

@@ -24,7 +24,7 @@ module.exports = {
   entry: {
     main: './src/main/index.js',
     car:'./src/car/index.js',
-    goods: './src/goods/index.js'
+    weather: './src/weather/index.js'
   },
   output: {
     path: config.build.assetsRoot,

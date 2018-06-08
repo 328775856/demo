@@ -1,7 +1,5 @@
 <template>
-  <div class="main">
-    main
-  </div>
+  <div>我是主页君啊！梦诗小公主</div>
 </template>
 
 <script>
