@@ -17,16 +17,16 @@ const PORT = process.env.PORT && Number(process.env.PORT)
 let names = []
 let htmlPlugins = []
 glob.sync('./view/*.html').forEach((data) => {
-  names.push(data.match(/\/(\w+)\.\w/)[1])
-})
-names.forEach((page) => {
+  data = data.match(/\/(\w+)\.\w/)[1]
   const htmlPlugin = new HtmlWebpackPlugin({
-    filename: `${page}.html`,
-    template: `./view/${page}.html`,
+    filename: `${data}.html`,
+    template: `./view/${data}.html`,
     inject: true,
-    chunks: [page]
+    chunks: [data]
   })
   htmlPlugins.push(htmlPlugin)
+})
+names.forEach((page) => {
 })
 const devWebpackConfig = merge(baseWebpackConfig, {
   // entry: {

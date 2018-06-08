@@ -7,9 +7,37 @@ const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlIncludeAssetsPlugin = require('html-webpack-include-assets-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const glob = require('glob')
+let names = []
+let htmlPlugins = [
+  new HtmlIncludeAssetsPlugin({
+    assets: [
+      config.build.assetsSubDirectory+'/global.css',
+    ],
+    append: false,
+    hash: true
+  })
+]
+glob.sync('./view/*.html').forEach((data) => {
+  data = data.match(/\/(\w+)\.\w/)[1]
+  const htmlplugin = new HtmlWebpackPlugin({
+    filename: `${data}.html`,
+    template: `./view/${data}.html`,
+    chunks: ['manifest', 'vendor', data],
+    inject: true,
+    minify: {
+      removeComments: true,
+      collapseWhitespace: true,
+      removeAttributeQuotes: true
+    },
+    chunksSortMode: 'dependency'
+  })
+  htmlPlugins.push(htmlplugin)
+})
 
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -56,8 +84,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     // duplicated CSS from different components can be deduped.
     new OptimizeCSSPlugin({
       cssProcessorOptions: config.build.productionSourceMap
-        ? { safe: true, map: { inline: false } }
-        : { safe: true }
+        ? {safe: true, map: {inline: false}}
+        : {safe: true}
     }),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
@@ -67,7 +95,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         ? 'index.html'
         : config.build.index,
       template: 'index.html',
-      inject: true,
+      inject: false,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -78,6 +106,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
+    ...htmlPlugins,
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting
@@ -85,7 +114,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks (module) {
+      minChunks(module) {
         // any required modules inside node_modules are extracted to vendor
         return (
           module.resource &&
